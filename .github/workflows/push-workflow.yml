@@ -1,18 +1,13 @@
 name: Push Workflow
 on: push
 jobs:
-  checkout:
+  build:
     runs-on: windows-latest
     steps:
       - name: Print greeting
         run: echo "Hello, you pushed a commit"
       - name: Get coode
         uses: actions/checkout@v3
-  build:
-    needs: checkout
-    runs-on: windows-latest
-    steps:
-
       - name: Install NodeJs
         uses: actions/setup-node@v3
         with:
@@ -33,9 +28,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: artifact
-          path: release/build/*.exe
-      - name: Build project
-        run: yarn build
+          path: release/build
       - name: Print goodbye
         run: echo "Job done, goodbye"
 
