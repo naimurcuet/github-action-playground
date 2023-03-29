@@ -1,11 +1,19 @@
 name: Push Workflow
 on: push
 jobs:
-  test:
+  checkout:
     runs-on: windows-latest
     steps:
       - name: Print greeting
         run: echo "Hello, you pushed a commit"
+      - name: Run tests
+        run: yarn test
+      - name: Print goodbye
+        run: echo "Job done, goodbye"
+  build:
+    needs: checkout
+    runs-on: windows-latest
+    steps:
       - name: Get coode
         uses: actions/checkout@v3
       - name: Install NodeJs
@@ -16,7 +24,19 @@ jobs:
         run: yarn
       - name: Build project
         run: yarn build
-      - name: Run tests
-        run: yarn test
+  deploy:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - name: Create artifact
+        run: yarn package
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifact
+          path: release/build/*.exe
+      - name: Build project
+        run: yarn build
       - name: Print goodbye
         run: echo "Job done, goodbye"
+
