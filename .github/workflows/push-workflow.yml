@@ -1,11 +1,11 @@
 name: Push Workflow
-on: push
+on: [push, workflow_dispatch]
 jobs:
   build:
     runs-on: windows-latest
     steps:
       - name: Print greeting
-        run: echo "Hello, you pushed a commit"
+        run: echo "Hello, I am starting the workflow"
       - name: Get coode
         uses: actions/checkout@v3
       - name: Install NodeJs
