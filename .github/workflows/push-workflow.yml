@@ -24,7 +24,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: artifact
-          path: release/build
+          path: release/build/*.exe
   deploy:
     needs: build
     runs-on: windows-latest
